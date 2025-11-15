@@ -1,3 +1,6 @@
+using EduAll.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace EduAll
 {
     public class Program
@@ -8,6 +11,12 @@ namespace EduAll
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Add dbContext
+            builder.Services.AddDbContext<AppDbContext>(option =>
+            {
+                option.UseSqlServer(builder.Configuration.GetConnectionString("con"));
+            });
 
             var app = builder.Build();
 
