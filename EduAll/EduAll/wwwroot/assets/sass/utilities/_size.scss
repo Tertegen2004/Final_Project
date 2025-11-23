@@ -1,0 +1,75 @@
+// width height
+@each $property, $value in $spaces {
+    .w-#{$property} {
+      width: $value !important;
+    }
+}
+
+@each $property, $value in $spaces {
+    .h-#{$property} {
+      height: $value !important;
+    }
+}
+
+.min-h {
+  &-252 {
+    min-height: 252px;
+  }
+  &-inherit {
+    min-height: inherit;
+  }
+}
+
+.max-h-unset {
+    max-height: unset !important;
+}
+.max-h-416 {
+    max-height: 416px !important;
+}
+.max-h-150 {
+    max-height: 150px !important;
+}
+
+.max-w-unset {
+    max-width: unset !important;
+}
+
+.max-w-340 {
+  max-width: 340px;
+}
+.max-w-274 {
+  @media (min-width: 576x) {
+    max-width: 274px;
+  }
+}
+.max-w {
+  &-176 {
+    max-width: 176px;
+  }
+  &-116 {
+    max-width: 116px;
+  }
+  &-454 {
+    max-width: 454px;
+  }
+}
+.max-w-708 {
+  max-width: 708px;
+}
+.min-w-320 {
+  min-width: 320px;
+}
+
+.max-w-150 {
+  max-width: 150px;
+}
+.max-w-636 {
+  max-width: 636px;
+}
+.max-w-416 {
+  max-width: 416px;
+}
+
+.w-50-percent {
+  width: 50% !important;
+}
