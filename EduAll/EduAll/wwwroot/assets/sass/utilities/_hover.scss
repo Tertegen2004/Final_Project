@@ -1,0 +1,18 @@
+/* Item Hover Css Start */
+.item-hover {
+    &:hover {
+        .item-hover__text {
+            color: #fff !important;
+        }
+        .item-hover__text-main {
+            color: var(--main-600)  !important;
+        }
+        .item-hover__bg {
+            background-color: #fff !important;
+        }
+        .item-hover__bg-main {
+            background-color: var(--main-600) !important;
+        }
+    }
+}
+/* Item Hover Css End */
