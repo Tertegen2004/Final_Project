@@ -6,7 +6,7 @@ namespace EduAll.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return Content("klsadjf");
         }
     }
 }
