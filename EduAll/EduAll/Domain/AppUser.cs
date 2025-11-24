@@ -14,7 +14,6 @@ namespace EduAll.Domain
         [Required]
         [MaxLength(20)]
         public string Country { get; set; }
-        [Required]
         public string? ImgUrl { get; set; }
         public string? JobTitle { get; set; }
         public string? Bio { get; set; }
