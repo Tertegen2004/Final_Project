@@ -33,6 +33,9 @@ namespace EduAll.Constant
 
             var admin = new AppUser
             {
+                FirstName ="Admin",
+                LastName ="Admin",
+                Country ="Global",
                 Email = "admin@admin.com",
                 UserName = "admin@admin.com"
             };
