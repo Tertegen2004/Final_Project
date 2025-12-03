@@ -18,11 +18,21 @@ namespace EduAll.Repository
             return context.SaveChanges();
         }
 
+        public Task<int> CreateRange(IEnumerable<T> entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> Delete(int id)
         {
             var entity = await FindById(id);
             context.Set<T>().Remove(entity);
             return await context.SaveChangesAsync();
+        }
+
+        public Task<int> DeleteAll(IEnumerable<T> entity)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<T> FindById(int id)
@@ -38,7 +48,7 @@ namespace EduAll.Repository
 
             if (filter != null)
             {
-                query.Where(filter);
+                query= query.Where(filter);
             }
 
             if (includes.Length > 0)
@@ -65,5 +75,26 @@ namespace EduAll.Repository
 
             return await context.SaveChangesAsync();
         }
+
+        IQueryable<T> IRepository<T>.GettAll(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = context.Set<T>();
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includes != null && includes.Length > 0)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return query;
+        }
+
     }
 }
