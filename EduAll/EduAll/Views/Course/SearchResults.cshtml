@@ -1,0 +1,66 @@
+﻿@model IEnumerable<EduAll.Domain.Course>
+
+@{
+    ViewData["Title"] = "Search Results";
+    var categories = ViewBag.Categories as List<EduAll.Domain.Category>;
+    int? selectedCatId = ViewBag.SelectedCategoryId as int?;
+    string term = ViewBag.SearchTerm as string ?? "";
+}
+
+<section class="course-grid-view py-120">
+    <div class="container">
+        <h3 class="mb-24">
+            Results for "@term"
+            @if (selectedCatId.HasValue && categories != null)
+            {
+                var catName = categories.FirstOrDefault(c => c.Id == selectedCatId.Value)?.Name;
+                if (!string.IsNullOrEmpty(catName))
+                {
+                    @: in @catName
+                }
+            }
+        </h3>
+
+        <div class="row gy-4">
+            @if (!Model.Any())
+            {
+                <p>No courses found.</p>
+            }
+            else
+            {
+                @foreach (var course in Model)
+                {
+                    <div class="col-lg-4 col-sm-6">
+                        @* لو عندك Partial لكارت الكورس استخدمه هنا *@
+                        <div class="course-item bg-main-25 rounded-16 p-12 h-100 border border-neutral-30">
+                            <div class="course-item__thumb rounded-12 position-relative">
+                                <a asp-action="Details"
+                                   asp-controller="Course"
+                                   asp-route-id="@course.Id"
+                                   class="w-100 h-100 d-block">
+                                    <img src="@course.ImgUrl"
+                                         alt="@course.Title"
+                                         class="course-item__img rounded-12 cover-img transition-2 w-100" />
+                                </a>
+                            </div>
+                            <div class="course-item__content">
+                                <h4 class="mb-16">
+                                    <a asp-action="Details"
+                                       asp-controller="Course"
+                                       asp-route-id="@course.Id"
+                                       class="link text-line-2">
+                                        @course.Title
+                                    </a>
+                                </h4>
+                                <div class="flex-between gap-8">
+                                    <span class="text-neutral-700">@course.Language</span>
+                                    <span class="text-main-two-600 fw-semibold">$@course.Price</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</section>

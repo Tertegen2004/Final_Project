@@ -319,35 +319,55 @@
                     </a>
                 </div>
                 <!-- Logo End  -->
-                <!-- Search Start -->
+
                 <div class="d-md-flex d-none bg-white border border-neutral-30 rounded-pill p-8 ps-24 pe-56 position-relative d-flex align-items-center min-w-320 max-w-708 w-100">
                     <div class="header-select style-two bg-white rounded-pill position-relative">
-                        <select class="js-example-basic-single border-0" name="state">
-                            <option value="1" selected>Physics</option>
-                            <option value="1">Math</option>
-                            <option value="1">Biology</option>
-                            <option value="1">English</option>
-                            <option value="1">Higher Math</option>
-                            <option value="1">Social Science</option>
-                            <option value="1">Chemistry</option>
+                        @{
+                            var allCats = ViewBag.AllCategories as List<EduAll.Domain.Category>;
+                        }
+                        <select class="js-example-basic-single border-0"
+                                name="categoryId"
+                                form="global-search-form">
+                            <option value="">All Categories</option>
+                            @if (allCats != null)
+                            {
+                                foreach (var cat in allCats)
+                                {
+                                    <option value="@cat.Id">@cat.Name</option>
+                                }
+                            }
                         </select>
                     </div>
 
-                    <form action="#" class="border-start border-neutral-30 ps-24 w-100">
+                    <form id="global-search-form"
+                          asp-controller="Course"
+                          asp-action="Search"
+                          method="get"
+                          class="border-start border-neutral-30 ps-24 w-100">
                         <input type="text"
+                               name="term"
+                               id="global-search"
                                class="common-input border-0 px-0 py-10"
-                               placeholder="Search Tutors..." />
+                               placeholder="Search courses..."
+                               autocomplete="off" />
                         <button type="submit"
                                 class="w-44 h-44 bg-main-600 hover-bg-main-700 rounded-circle flex-center text-xl text-white position-absolute top-50 translate-middle-y inset-inline-end-0 me-8">
                             <i class="ph-bold ph-magnifying-glass"></i>
                         </button>
+
+                        <!-- صندوق الترشيحات (Autocomplete) -->
+                        <div id="search-suggestions"
+                             class="position-absolute bg-white w-100 shadow-sm d-none"
+                             style="top:100%; left:0; z-index:9999;"></div>
                     </form>
                 </div>
                 <!-- Search End -->
-                <partial name="_Login_Register">
+
+                <partial name="_Login_Register" />
             </div>
         </div>
     </div>
+
     <!-- =========================== Header Top End ============================= -->
     <!-- ============================ Header Two Start ============================ -->
     @{
@@ -356,62 +376,47 @@
     }
     <header class="header border-bottom-0 bg-white">
         <div class="container">
-            <nav class="header-inner flex-between gap-8">
-                <!-- Select Start -->
-                <div class="header-select border border-neutral-30 bg-main-25 rounded-pill position-relative ms-0">
-                    <span class="select-icon position-absolute top-50 translate-middle-y inset-inline-start-0 z-1 ms-lg-4 ms-12 text-xl pointer-event-none d-flex">
-                        <i class="ph-bold ph-squares-four"></i>
-                    </span>
-                    <select class="js-example-basic-single border-0" name="state">
-                        <option value="1" selected disabled>Categories</option>
-                        <option value="1">Design</option>
-                        <option value="1">Development</option>
-                        <option value="1">Architecture</option>
-                        <option value="1">Life Style</option>
-                        <option value="1">Data Science</option>
-                        <option value="1">Marketing</option>
-                        <option value="1">Music</option>
-                        <option value="1">Typography</option>
-                        <option value="1">Finance</option>
-                        <option value="1">Motivation</option>
-                    </select>
+            <nav class="d-flex align-items-center gap-8">
+                <!-- المينيو في النص -->
+                <div class="flex-grow-1 d-flex justify-content-center">
+                    <div class="header-menu d-lg-block d-none">
+                        <ul class="nav-menu flex-align">
+                            <li class="nav-submenu__item @(currentController == "Home" ? "activePage" : "")">
+                                <a asp-action="Index" asp-controller="Home"
+                                   class="nav-submenu__link hover-bg-neutral-30">Home</a>
+                            </li>
+                            <li class="nav-submenu__item">
+                                <a asp-action="Index" asp-controller="Course"
+                                   class="nav-submenu__link hover-bg-neutral-30 @(currentController == "Course" ? "activePage" : "")">Courses</a>
+                            </li>
+                            <li class="nav-submenu__item">
+                                <a asp-action="Index" asp-controller="About"
+                                   class="nav-submenu__link hover-bg-neutral-30 @(currentController == "About" || currentController == "Instructor" ? "activePage" : "")">About</a>
+                            </li>
+                            <li class="nav-submenu__item">
+                                <a asp-action="Index" asp-controller="Cart"
+                                   class="nav-submenu__link hover-bg-neutral-30 @(currentController == "Cart" ? "activePage" : "")">Cart</a>
+                            </li>
+                            <li class="nav-submenu__item">
+                                <a asp-action="Index" asp-controller="Contact"
+                                   class="nav-submenu__link hover-bg-neutral-30 @(currentController == "Contact" ? "activePage" : "")">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <!-- Select End -->
-                <!-- Menu Start  -->
-                <div class="header-menu d-lg-block d-none">
-                    <ul class="nav-menu flex-align">
-                        <li class="nav-submenu__item @(currentController == "Home" ? "activePage" : "")">
-                            <a asp-action="Index" asp-controller="Home"
-                               class="nav-submenu__link hover-bg-neutral-30">Home</a>
-                        </li>
-                        <li class="nav-submenu__item">
-                            <a asp-action="Index" asp-controller="Course"
-                               class="nav-submenu__link hover-bg-neutral-30 @(currentController == "Course" ? "activePage" : "")">Courses</a>
-                        </li>
-                        <li class="nav-submenu__item">
-                            <a asp-action="Index" asp-controller="About"
-                               class="nav-submenu__link hover-bg-neutral-30 @(currentController == "About" || currentController == "Instructor" ? "activePage" : "")">About</a>
-                        </li>
 
-                        <li class="nav-submenu__item">
-                            <a asp-action="Index" asp-controller="Cart"
-                               class="nav-submenu__link hover-bg-neutral-30 @(currentController == "Cart" ? "activePage" : "")">Cart</a>
-                        </li>
-
-                        <li class="nav-submenu__item">
-                            <a asp-action="Index" asp-controller="Contact"
-                               class="nav-submenu__link hover-bg-neutral-30 @(currentController == "Contact" ? "activePage" : "")">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Menu End  -->
-                <!-- Header Right start -->
+                <!-- الويش ليست + الكارت ملزوقين في اليمين -->
                 <div class="header-right flex-align">
                     <a asp-action="Index" asp-controller="Favorite"
                        class="info-action w-44 h-44 bg-main-25 hover-bg-main-600 rounded-circle flex-center text-xl text-neutral-500 hover-text-white position-relative me-6">
                         <i class="ph-bold ph-heart"></i>
-                        <span class="w-22 h-22 flex-center rounded-circle bg-main-two-600 text-white text-xs position-absolute top-n6 end-n4">5</span>
+                        <span id="wishlist-count"
+                              class="w-22 h-22 flex-center rounded-circle bg-main-two-600 text-white text-xs position-absolute top-n6 end-n4">
+                            0
+                        </span>
                     </a>
+
+
                     <a asp-action="Index" asp-controller="Cart"
                        class="info-action w-44 h-44 bg-main-25 hover-bg-main-600 rounded-circle flex-center text-xl text-neutral-500 hover-text-white position-relative me-6">
                         <i class="ph-bold ph-shopping-cart-simple"></i>
@@ -423,16 +428,18 @@
                         <i class="ph ph-list"></i>
                     </button>
                 </div>
-                <!-- Header Right End  -->
+
             </nav>
         </div>
     </header>
+
+
     <!-- ==================== Header End Here ==================== -->
     <!-- ============================ Header Two End ============================ -->
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <main role="main">
+        @RenderBody()
+    </main>
+
     </div>
     <!-- ==================== Footer Start Here ==================== -->
     <footer class="footer bg-neutral-900 position-relative z-1">
@@ -583,5 +590,15 @@
     <!-- main js -->
     <script src="/assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(function () {
+            $.get("/Favorite/Count")
+                .done(function (res) {
+                    $("#wishlist-count").text(res.count);
+                });
+        });
+
+    </script>
+
 </body>
 </html>

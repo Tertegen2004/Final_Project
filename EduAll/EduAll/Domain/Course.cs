@@ -11,6 +11,8 @@ namespace EduAll.Domain
         public decimal Price { get; set; }
         public string Level { get; set; }
         public string Language { get; set; }
+        public decimal? Rate { get; set; }
+        public decimal? Duration { get; set; }
 
         // FK
         public string InstructorId { get; set; }

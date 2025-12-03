@@ -6,7 +6,7 @@ namespace EduAll.Domain
     {
         public int Id { get; set; }
         // FK
-        public string UserId { get; set; }
+        public string UserId { get; set; } = "guest";
         public int CourseId { get; set; }
 
         // Nav Prop
